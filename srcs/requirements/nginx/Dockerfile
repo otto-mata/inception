@@ -3,7 +3,9 @@ FROM alpine:3.21
 WORKDIR /build
 COPY . .
 
-RUN apk update && apk add nginx openssl bash
+RUN apk update && \
+    apk add nginx \
+    openssl
 
 RUN adduser -D -g 'www' www && \
     mkdir /var/www/html && \

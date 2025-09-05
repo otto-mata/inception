@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 if [ ! -f "/etc/nginx/ssl/nginx.key" ]; then
 	openssl req \
@@ -8,8 +8,9 @@ if [ ! -f "/etc/nginx/ssl/nginx.key" ]; then
 		-newkey rsa:4096 \
 		-sha256 \
 		-keyout /etc/nginx/ssl/nginx.key \
-		-out /etc/nginx/ssl/nginx.crt \
+		-out /etc/nginx/ssl/nginx.cert \
 		-subj "/C=FR/ST=Paris/L=Paris/O=42/OU=Students/CN=tblochet.42.fr"
+	date +install_%s%z > /build/installed
 fi
 
 exec nginx

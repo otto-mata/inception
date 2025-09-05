@@ -9,6 +9,8 @@ services:
       - wordpress_db:/var/lib/mysql
     networks:
       - inception
+    ports:
+      - 3306:3306
     restart: always
   wordpress:
     build: ./requirements/wordpress
@@ -44,7 +46,15 @@ services:
 
 volumes:
   wordpress_data:
+   driver_opts:
+      type: 'none'
+      o: bind
+      device: /tmp/wordpress_data
   wordpress_db:
+   driver_opts:
+      type: 'none'
+      o: bind
+      device: /tmp/wordpress_db
 
 networks:
   inception:
