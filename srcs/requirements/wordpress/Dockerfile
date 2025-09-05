@@ -20,7 +20,7 @@ RUN apk update && \
 RUN mkdir -p /var/www/html
 
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-	-output-document=/bin/wp && \
+	--output-document=/bin/wp && \
 	chmod +x /bin/wp
 
 RUN ln -sv /usr/bin/php82 /usr/bin/php && \
@@ -28,8 +28,8 @@ RUN ln -sv /usr/bin/php82 /usr/bin/php && \
 
 RUN adduser -D wordpress -g wordpress && \
 	chown wordpress:wordpress -R /var/www/html && \
-	chmod -R +rw /var/www/html && \
-	chmod -R +rw /var/log/php82/
+	chmod -R o+rw /var/www/html && \
+	chmod -R o+rw /var/log/php82/
 
 RUN cp ./tools/entrypoint /bin/docker_entry && \
 	chmod +x /bin/docker_entry

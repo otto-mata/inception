@@ -49,12 +49,12 @@ volumes:
    driver_opts:
       type: 'none'
       o: bind
-      device: /tmp/wordpress_data
+      device: /home/$USER/wordpress_data
   wordpress_db:
    driver_opts:
       type: 'none'
       o: bind
-      device: /tmp/wordpress_db
+      device: /home/$USER/wordpress_db
 
 networks:
   inception:
