@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+if [ ! -f "/etc/nginx/ssl/nginx.key" ]; then
+	openssl req \
+		-x509 \
+		-nodes \
+		-days 365 \
+		-newkey rsa:4096 \
+		-sha256 \
+		-keyout /etc/nginx/ssl/nginx.key \
+		-out /etc/nginx/ssl/nginx.crt \
+		-subj "/C=FR/ST=Paris/L=Paris/O=42/OU=Students/CN=tblochet.42.fr"
+fi
+
+exec nginx
