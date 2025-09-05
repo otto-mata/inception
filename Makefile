@@ -3,10 +3,18 @@ REQDIR:=./srcs/requirements
 NGINX_IMG_NAME:=nginx_local
 MARIADB_IMG_NAME:=mariadb_local
 WORDPRESS_IMG_NAME:=wordpress_local
+WP_DATA_DIR:=/home/$(USER)/wordpress_data
+WP_DB_DIR:=/home/$(USER)/wordpress_db
 
 all: build
 
-build:
+$(WP_DATA_DIR):
+	mkdir -p $@
+
+$(WP_DB_DIR):
+	mkdir -p $@
+
+build: $(WP_DATA_DIR) $(WP_DB_DIR)
 	docker compose -f $(BASE)/docker-compose.yml up --build
 
 build-nginx:
