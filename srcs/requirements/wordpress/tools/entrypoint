@@ -26,7 +26,7 @@ if ! [ -e /var/www/html/wp-config.php ]; then
 		--admin_email=$WORDPRESS_ADMIN_MAIL_ADDRESS \
 		--path=/var/www/html \
 		--allow-root
-		
+
 	wp user create \
 		"$WORDPRESS_USER" \
 		"$WORDPRESS_MAIL_ADDRESS" \

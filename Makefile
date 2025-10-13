@@ -51,6 +51,11 @@ fclean: clean
 	docker image prune -fa
 	docker volume prune -fa
 	docker system prune -fa
+	if [ $(shell docker volume ls -q | wc -l) -ne 0 ]; then \
+                docker volume rm -f $(shell docker volume ls -q); \
+        fi
+	sudo rm -rf $(WP_DATA_DIR)
+	sudo rm -rf $(WP_DB_DIR)
 
 setup:
 	false
