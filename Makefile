@@ -14,7 +14,7 @@ $(WP_DATA_DIR):
 $(WP_DB_DIR):
 	mkdir -p $@
 
-build: $(WP_DATA_DIR) $(WP_DB_DIR)
+build: populate_env_file $(WP_DATA_DIR) $(WP_DB_DIR)
 	docker compose -f $(BASE)/docker-compose.yml up --build
 
 build-nginx:
@@ -39,12 +39,12 @@ build-wordpress:
 down:
 	@echo Running 'down'...
 	docker compose -f $(BASE)/docker-compose.yml down
-	if [ $(shell docker ps -q | wc -l) -ne 0 ]; then \
-		docker stop $(shell docker ps -q); \
-	fi
 
 clean: down
 	@echo Running 'clean'...
+	if [ $(shell docker ps -q | wc -l) -ne 0 ]; then \
+		docker stop $(shell docker ps -q); \
+	fi
 	if [ $(shell docker ps -aq | wc -l) -ne 0 ]; then \
 		docker rm -f $(shell docker ps -aq); \
 	fi
@@ -65,7 +65,14 @@ fclean: clean
 	fi
 	sudo rm -rf $(WP_DATA_DIR)
 	sudo rm -rf $(WP_DB_DIR)
+	rm -rf ./secrets/.env
 
 re: fclean all
 
-.PHONY: all build-nginx build-mariadb build-wordpress build down setup clean fclean re
+populate_env_file: secrets/.env
+
+secrets/.env:
+	cp secrets/.env.example $@
+	bash scripts/populate_env.sh $(shell pwd)/$@
+
+.PHONY: all build-nginx build-mariadb build-wordpress build down setup clean fclean re populate_env_file
